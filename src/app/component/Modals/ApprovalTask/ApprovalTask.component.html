@@ -1,0 +1,161 @@
+<div class="card paneSettings">
+  <div class="card-header panel-background">
+    {{ taskName }}
+    <button
+      type="button"
+      class="btn btn-sm btn-warning float-right"
+      aria-label="Close"
+      (click)="dismiss()"
+      style="margin-left: 5px"
+    >
+      <fa-icon [icon]="faTimesCircle"></fa-icon>
+    </button>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">Claim Information</div>
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Member Id</th>
+                  <th>Accident Date</th>
+                  <th>Location</th>
+                  <th>Filing Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ claim.memberId }}</td>
+                  <td>{{ claim.accidentDate }}</td>
+                  <td>{{ claim.location }}</td>
+                  <td>{{ claim.filingDate }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card" *ngIf="taskName == 'Approve'">
+          <div class="card-header"> Policy Info</div>
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                 <th> Policy Number</th>
+                 <th> Time Limit</th>
+                 <th> Deductible</th>
+                 <th> Comprehensive Coverage</th>
+                 <th> Collision Coverage</th>
+                 <th> Medical Pay Coverage</th>
+                 <th> Personal Injury Protect</th>
+                 <th> Uninsured Motorist Coverage</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{policy.memberId}}</td>
+                  <td>{{policy.timeLimitDays}}</td>
+                  <td>{{policy.deductible | currency}}</td>
+                  <td>{{policy.comprehensiveCoverage | currency}}</td>
+                  <td>{{policy.collisionCoverage | currency}}</td>
+                  <td>{{policy.medicalPaymentsCoverage | currency}}</td>
+                  <td>{{policy.personalInjuryProtection | currency}}</td>
+                  <td>{{policy.uninsuradeAndUnderinsuredMotoristCoverage | currency}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card" *ngIf="taskName == 'Approve'">
+          <div class="card-header">Attached Documents</div>
+          <div class="card-body">
+            <div class="row">
+             <div class="col-md-6">
+               <h6>Accident Report</h6>
+               <fa-icon [icon]="faFileDownload"></fa-icon> {{report["org.jbpm.document.service.impl.DocumentImpl"].name}} ( {{report["org.jbpm.document.service.impl.DocumentImpl"].size}} Bytes )
+             </div>
+             <div class="col-md-6">
+              <h6> Photos</h6>
+              <fa-icon [icon]="faFileDownload"></fa-icon> {{photo["org.jbpm.document.service.impl.DocumentImpl"].name}} ({{photo["org.jbpm.document.service.impl.DocumentImpl"].size}} Bytes)
+            </div>
+          </div>
+          </div>
+        </div>
+        <div class="card" *ngIf="taskName == 'Approve'">
+          <div class="card-header">Decision</div>
+          <div class="card-body">
+              <input type="radio" id="decision" value="true" [(ngModel)]="isApproved"> Approved
+              <input type="radio" id="decision" value="false" [(ngModel)]="isApproved">Declined
+          </div>
+        </div>
+        <div class="card" *ngIf="taskName == 'Get Documentation'">
+          <div class="card-header">Upload Documents</div>
+          <div class="card-body">
+            <div class="col-md-6">
+              <div [formGroup]="formImport">
+                <label> Accident Report : </label>
+                <div class="input-group mb-3">
+                  <div class="custom-file">
+                    <input
+                      type="file"
+                      class="custom-file-input"
+                      single
+                      formControlName="importFile"
+                      id="importFile"
+                      (change)="
+                        onFileChange($event.target.files, reportDocument)
+                      "
+                    />
+                    <label
+                      class="custom-file-label custom_file_label"
+                      for="importFile"
+                      ><i class="fas fa-search"></i>
+                      {{ reportDocument.documentName }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group" [formGroup]="formImport">
+                <label> Accident Photos : </label>
+                <div class="input-group mb-3">
+                  <div class="custom-file">
+                    <input
+                      type="file"
+                      class="custom-file-input"
+                      single
+                      formControlName="importFile"
+                      id="importFile"
+                      (change)="
+                        onFileChange($event.target.files, photoDocument)
+                      "
+                    />
+                    <label
+                      class="custom-file-label custom_file_label"
+                      for="importFile"
+                      ><i class="fas fa-search"></i>
+                      {{ photoDocument.documentName }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <button *ngIf="taskName == 'Get Documentation'"
+          class="btn btn-sm btn-warning float-right" (click)="onClaimStartGetDocumentation()" style="margin-left:10px;">
+          Document Upload Completed
+        </button>
+        <button *ngIf="taskName == 'Approve'"
+          class="btn btn-sm btn-warning float-right" (click)="onClaimApproveDecline();">
+          Claim Decision Complete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

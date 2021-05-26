@@ -1,0 +1,19 @@
+.paneSettings {
+    font-size: 14px;
+}
+
+label {
+    font-weight: bold;
+}
+
+h4 {
+    text-align: center;
+    padding: 10px;
+    font-weight: 200;
+}
+
+.custom_file_label
+{
+  font-size: 15px;
+  overflow: auto;
+}

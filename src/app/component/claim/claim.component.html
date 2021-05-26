@@ -1,0 +1,171 @@
+<div class="card">
+  <div class="card-header">New Claim
+    
+    <select class="form-control form-control-sm float-right col-md-1" [(ngModel)]="claim">
+       <option *ngFor="let rec of claimList" [ngValue]="rec">{{rec.location}}</option>
+    </select>
+    <label class="float-right" style="margin-right:10px;">Profile :</label>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="id_companyName">Member Id</label>
+          <input
+            type="number"
+            class="form-control input-sm"
+            id="id_companyName"
+            autofocus
+            [(ngModel)]="claim.memberId"
+          />
+        </div>
+        <div class="form-group">
+          <label for="id_companyName">Location</label>
+          <input
+            type="text"
+            class="form-control input-sm"
+            id="id_companyName"
+            autofocus
+            [(ngModel)]="claim.location"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="id_companyName">Filing Date</label>
+          <input
+            type="date"
+            class="form-control input-sm"
+            [(ngModel)]="claim.filingDate"
+          />
+        </div>
+        <div class="form-group">
+          <label for="id_companyName">Accident Date</label>
+          <input
+            type="date"
+            class="form-control input-sm"
+            [(ngModel)]="claim.accidentDate"
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="id_companyName">Weather Conditions</label>
+          <select
+            class="form-control input-sm"
+            [(ngModel)]="claim.weatherConditions"
+          >
+            <option value="Rain">Rain</option>
+            <option value="Sunny">Sunny</option>
+            <option value="Snow">Snow</option>
+            <option value="Thunderstroms">Thunderstroms</option>
+            <option value="IcyRoad">IcyRoad</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="id_companyName">Time of Day</label>
+          <input
+            type="time"
+            class="form-control input-sm"
+            [(ngModel)]="claim.timeOfDay"
+          />
+        </div>
+      </div>
+      <div class="col-md-3"> 
+          <button class="btn btn-success float-right" type="button" (click)="onSubmit();">Submit Claim</button>
+      </div>
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+             Involved Parties
+             <button class="btn btn-sm btn-warning float-right" type="button" (click)="onAddPerson();"> Add Person</button>
+          </div>
+          <div class="card-body">
+              <table class="table table-striped">
+                  <thead>
+                     <tr>
+                       <th>Name</th>
+                       <th>Address</th>
+                       <th>Insurance Provider</th>
+                       <th>Insurance Id</th>
+                       <th>Vehicle Information</th>
+                       <th>Action</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let rec of claim.personInvolved">
+                        <td><input class="form-control form-control-sm" type="text" [(ngModel)]="rec.name"/></td>
+                        <td><input class="form-control form-control-sm" type="text" [(ngModel)]="rec.address"/></td>
+                        <td><input class="form-control form-control-sm" type="text" [(ngModel)]="rec.insurance"/></td>
+                        <td><input class="form-control form-control-sm" type="text" [(ngModel)]="rec.insuranceId"/></td>
+                        <td><input class="form-control form-control-sm" type="text" [(ngModel)]="rec.vehicleInformation"/></td>
+                        <td><button class="btn btn-sm btn-danger" type="button" (click)="onDeletePerson(rec);">Delete</button></td>
+                    </tr>
+                  </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+         <div class="card">
+           <div class="card-header">
+             Police Officers
+             <button class="btn btn-sm btn-warning float-right" type="button" (click)="onAddOfficer();"> Add Officer</button>
+           </div>
+           <div class="card-body">
+             <table class="table table-striped">
+                 <thead>
+                   <tr>
+                      <th> Name </th>
+                      <th> Badge </th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   <tr *ngFor="let rec of claim.policeOfficer">
+                       <td><input class="form-control form-control-sm" type="text" [(ngModel)]="rec.name"/></td>
+                       <td><input class="form-control form-control-sm" type="text" [(ngModel)]="rec.badge"/></td>
+                       <td><button class="btn btn-sm btn-danger" type="button" (click)="onDeleteOfficer(rec);">Delete</button></td>
+                   </tr>
+                 </tbody>
+             </table>
+           </div>
+         </div>
+      </div>
+      <div class="col-md-12">
+          <div class="card"> 
+            <div class="card-header">Policy Summary</div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                   <th> Policy Number</th>
+                   <th> Time Limit</th>
+                   <th> Deductible</th>
+                   <th> Comprehensive Coverage</th>
+                   <th> Collision Coverage</th>
+                   <th> Medical Pay Coverage</th>
+                   <th> Personal Injury Protect</th>
+                   <th> Uninsured Motorist Coverage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{policy.memberId}}</td>
+                    <td>{{policy.timeLimitDays}}</td>
+                    <td>{{policy.deductible | currency}}</td>
+                    <td>{{policy.comprehensiveCoverage | currency}}</td>
+                    <td>{{policy.collisionCoverage | currency}}</td>
+                    <td>{{policy.medicalPaymentsCoverage | currency}}</td>
+                    <td>{{policy.personalInjuryProtection | currency}}</td>
+                    <td>{{policy.uninsuradeAndUnderinsuredMotoristCoverage | currency}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
